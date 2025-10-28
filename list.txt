@@ -1,7 +1,0 @@
-Examen ulloa
-Examen Oswi
-Programa Prolog
-App Swift Matemáticas
-Proyecto ISW
-Proyecto Tareas-MERN
-Simulador rvm
