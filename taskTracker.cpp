@@ -20,9 +20,12 @@ List all tasks that are in progress*/
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cctype>
+#include <algorithm>
 
 using namespace std;
 
+string toLowerCase(string s);
 void addTask(string taskName);
 void updateTask(string taskName, string newName);
 void deleteTask(string taskName);
@@ -140,6 +143,13 @@ int main(){
     return 0;
 }
 
+string toLowerCase(string s){//this method converts a string toLowerCase
+                             //so that task name comparisons are case-insensitive
+    string lower = s;
+    transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c){ return tolower(c);});
+    return lower;
+}
+
 void addTask(string taskName){
     ofstream file("list.txt", ios::app); //if list.txt exists opens file in append mode
                                          //if not it creates the file and opens it in append mode
@@ -170,7 +180,7 @@ void updateTask(string taskName, string newName){
     bool found = false;
 
     while(getline(in, line)){ //reads every line in the file
-        if(line == taskName){ //if there's a task with the name inputed by the user
+        if(toLowerCase(line) == toLowerCase(taskName)){ //if there's a task with the name inputed by the user
             lines.push_back(newName);//changes the old name by the new name
             found = true;
         }else{
@@ -215,7 +225,7 @@ void deleteTask(string taskName){
     bool found = false;
 
     while(getline(in, line)){
-        if(line != taskName){  //writes every line that doesn't have the name of the task 
+        if(toLowerCase(line) != toLowerCase(taskName)){  //writes every line that doesn't have the name of the task 
                                //the user wants to delete
             lines.push_back(line); 
         }
@@ -260,7 +270,7 @@ void markTaskAsInProgress(string taskName){
     bool found = false;
 
     while(getline(in, line)){ //reads every line in the file
-        if(line == taskName){ //if there's a task with the name inputed by the user
+        if(toLowerCase(line) == toLowerCase(taskName)){ //if there's a task with the name inputed by the user
             found = true;     //marks the task as found
             }
     }
@@ -303,7 +313,7 @@ void markTaskAsDone(string taskName){
     bool found = false;
 
     while(getline(in, line)){ //reads every line in the file
-        if(line == taskName){ //if there's a task with the name inputed by the user
+        if(toLowerCase(line) == toLowerCase(taskName)){ //if there's a task with the name inputed by the user
             found = true;     //marks the task as found
         }
     }
@@ -346,7 +356,7 @@ void markTaskAsNotDone(string taskName){
     bool found = false;
 
     while(getline(in, line)){ //reads every line in the file
-        if(line == taskName){ //if there's a task with the name inputed by the user
+        if(toLowerCase(taskName) == toLowerCase(line)){ //if there's a task with the name inputed by the user
             found = true;     //marks the task as found
         }
     }
@@ -455,7 +465,7 @@ void removeTaskFromFile(string fileName, string taskName){ //receives as paramet
     string line;
 
     while(getline(in, line)){ //reads every line in the file
-        if(line != taskName){ 
+        if(toLowerCase(line) != toLowerCase(taskName)){ 
             lines.push_back(line); //saves every task except the one we'll remove from the file
         }
     }
@@ -470,3 +480,5 @@ void removeTaskFromFile(string fileName, string taskName){ //receives as paramet
 
     out.close();
 }
+
+
