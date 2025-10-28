@@ -1,0 +1,6 @@
+# Archivos generados automáticamente
+*.exe
+*.txt
+
+# Configuración de VS Code
+.vscode/
